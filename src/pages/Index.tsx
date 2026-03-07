@@ -1,12 +1,24 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import StatsTicker from '@/components/StatsTicker';
+import Features from '@/components/Features';
+import DashboardPreview from '@/components/DashboardPreview';
+import Pricing from '@/components/Pricing';
+import Footer from '@/components/Footer';
+import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 
 const Index = () => {
+  const ref = useScrollReveal();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div ref={ref} className="min-h-screen bg-background font-body">
+      <Navbar />
+      <Hero />
+      <StatsTicker />
+      <Features />
+      <DashboardPreview />
+      <Pricing />
+      <Footer />
     </div>
   );
 };
