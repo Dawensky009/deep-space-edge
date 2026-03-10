@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import StatsTicker from '@/components/StatsTicker';
 import Features from '@/components/Features';
+import RecentAnalyses from '@/components/RecentAnalyses';
 import DashboardPreview from '@/components/DashboardPreview';
 import Pricing from '@/components/Pricing';
 import Footer from '@/components/Footer';
@@ -16,6 +17,7 @@ const Index = () => {
       <Hero />
       <StatsTicker />
       <Features />
+      <RecentAnalyses />
       <DashboardPreview />
       <Pricing />
       <Footer />
