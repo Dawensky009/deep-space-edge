@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Zap, Menu, X, User } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const navLinks = [
-  { label: 'Features', href: '#features' },
-  { label: 'Kijan Li Mache', href: '#how-it-works' },
-  { label: 'Dashboard', href: '#dashboard' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Kijan Li Mache', href: '/#how-it-works' },
+  { label: 'Dashboard', href: '/#dashboard' },
+  { label: 'Pricing', href: '/#pricing' },
 ];
 
 declare global {
@@ -17,6 +18,7 @@ declare global {
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Tcheke si gen yon user deja nan localStorage
@@ -30,38 +32,40 @@ const Navbar = () => {
       console.log('User loged in:', userData);
       setUser(userData);
       localStorage.setItem('daky_user', JSON.stringify(userData));
+      navigate('/profile');
     };
 
-    // Dinamikman chaje Telegram Script la
-    const script = document.createElement('script');
-    script.src = "https://telegram.org/js/telegram-widget.js?22";
-    script.setAttribute('data-telegram-login', "DakyBettingBot"); // Chanje sa ak non bot ou an
-    script.setAttribute('data-size', 'medium');
-    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-    script.setAttribute('data-request-access', 'write');
-    script.async = true;
-    
-    const container = document.getElementById('telegram-login-container');
-    if (container && !user) {
-      container.appendChild(script);
+    // Dinamikman chaje Telegram Script la sèlman si pa gen user
+    if (!user) {
+        const script = document.createElement('script');
+        script.src = "https://telegram.org/js/telegram-widget.js?22";
+        script.setAttribute('data-telegram-login', "DakyBettingBot"); // Chanje sa ak non bot ou an
+        script.setAttribute('data-size', 'medium');
+        script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+        script.setAttribute('data-request-access', 'write');
+        script.async = true;
+        
+        const container = document.getElementById('telegram-login-container');
+        if (container) {
+          container.innerHTML = '';
+          container.appendChild(script);
+        }
     }
 
-    return () => {
-      if (container) container.innerHTML = '';
-    };
-  }, [user]);
+  }, [user, navigate]);
 
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('daky_user');
+    navigate('/');
   };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-strong">
       <div className="container mx-auto flex items-center justify-between px-4 py-4 md:px-8">
-        <a href="#" className="font-display text-xl font-bold tracking-tight text-foreground">
+        <Link to="/" className="font-display text-xl font-bold tracking-tight text-foreground">
           Daky <span className="text-primary">AI</span>
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">
@@ -81,15 +85,17 @@ const Navbar = () => {
             <div id="telegram-login-container"></div>
           ) : (
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-primary">
-                {user.photo_url ? (
-                  <img src={user.photo_url} alt="profile" className="h-full w-full rounded-full object-cover" />
-                ) : (
-                  <User size={18} />
-                )}
-              </div>
-              <span className="hidden text-sm font-medium text-foreground sm:block">{user.first_name}</span>
-              <button onClick={handleLogout} className="text-xs text-muted-foreground hover:text-red-400">Logout</button>
+              <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-primary border border-primary/30">
+                    {user.photo_url ? (
+                    <img src={user.photo_url} alt="profile" className="h-full w-full rounded-full object-cover" />
+                    ) : (
+                    <User size={18} />
+                    )}
+                </div>
+                <span className="hidden text-sm font-medium text-foreground sm:block">{user.first_name}</span>
+              </Link>
+              <button onClick={handleLogout} className="text-xs text-muted-foreground hover:text-red-400 ml-2">Logout</button>
             </div>
           )}
           
