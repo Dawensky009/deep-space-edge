@@ -2,6 +2,17 @@ import { TrendingUp, TrendingDown, Clock, CheckCircle, XCircle } from 'lucide-re
 
 const analyses = [
   {
+    "id": 5629,
+    "match": "Real Madrid vs Manchester City",
+    "league": "\ud83c\udfc6 Champions League",
+    "prediction": "Manchester City",
+    "odds": 1.95,
+    "confidence": 53,
+    "result": "won",
+    "profit": "+$78",
+    "date": "11 March 2026"
+  },
+  {
     "id": 2284,
     "match": "Paris Saint Germain vs Chelsea",
     "league": "\ud83c\udfc6 Champions League",
